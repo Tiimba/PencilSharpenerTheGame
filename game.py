@@ -1,6 +1,7 @@
 import pygame
 from pygame.locals import *
- 
+from sprites.pencil_sharper import PencilSprite
+
 class PencilSharpenerGame:
     def __init__(self):
         self._running = True
@@ -11,8 +12,11 @@ class PencilSharpenerGame:
     def on_init(self):
         pygame.init()
         self.clock = pygame.time.Clock()
-        self._display_surf = pygame.display.set_mode(self.size, pygame.HWSURFACE | pygame.DOUBLEBUF)
+        self.screen = pygame.display.set_mode(self.size)
         self._running = True
+        self.pencil_shaperner = PencilSprite()
+
+        self.player_pos = pygame.Vector2(self.screen.get_width() / 2, self.screen.get_height() / 2)
 
     def on_event(self, event):
         if event.type == pygame.QUIT:
@@ -25,8 +29,11 @@ class PencilSharpenerGame:
         self.clock.tick(60)
 
     def on_render(self):
-        pass
-
+        self.screen.fill("black")
+        # pygame.draw.circle(self.screen, "red", self.player_pos, 40)
+        self.pencil_shaperner.draw()
+        pygame.display.flip()
+        
     def on_cleanup(self):
         pygame.quit()
 
