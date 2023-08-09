@@ -1,6 +1,8 @@
 import pygame
 from pygame.locals import *
-from sprites.pencil_sharper import PencilSprite
+from sprites.pencil_sharper import PencilSharpener
+import random
+
 
 class PencilSharpenerGame:
     def __init__(self):
@@ -14,9 +16,8 @@ class PencilSharpenerGame:
         self.clock = pygame.time.Clock()
         self.screen = pygame.display.set_mode(self.size)
         self._running = True
-        self.pencil_shaperner = PencilSprite()
-
         self.player_pos = pygame.Vector2(self.screen.get_width() / 2, self.screen.get_height() / 2)
+        self.pencil_shaperner = PencilSharpener(image_path="sprites/up-seta.png", x= self.player_pos.x, y=self.player_pos.y)
 
     def on_event(self, event):
         if event.type == pygame.QUIT:
@@ -30,8 +31,7 @@ class PencilSharpenerGame:
 
     def on_render(self):
         self.screen.fill("black")
-        # pygame.draw.circle(self.screen, "red", self.player_pos, 40)
-        self.pencil_shaperner.draw()
+        self.screen.blit(self.pencil_shaperner.image, self.pencil_shaperner.rect)
         pygame.display.flip()
         
     def on_cleanup(self):
@@ -59,4 +59,8 @@ class PencilSharpenerGame:
             print("A pressed")
         if keys[pygame.K_d]:
             print("D pressed")
-        # pass
+    
+    def random_key_generator(self) -> any:
+        possible_keys = (pygame.K_w, pygame.K_s, pygame.K_d, pygame.K_a)
+        random_key_selected = random.choice(possible_keys)
+        return random_key_selected
